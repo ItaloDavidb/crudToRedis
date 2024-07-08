@@ -1,7 +1,8 @@
-import { Controller, Get, Post, Delete, Param, Body } from '@nestjs/common';
+import { Controller, Get, Post, Delete, Param, Body, UseInterceptors } from '@nestjs/common';
 import { User } from '../entities/User-entity';
 import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { AppService } from 'src/services/app.service';
+import { CacheInterceptor } from '@nestjs/cache-manager';
 
 @ApiTags('users')
 @Controller('users')
@@ -16,9 +17,11 @@ export class AppController {
   }
 
   @Get(':id')
+  @UseInterceptors(CacheInterceptor)
   @ApiOperation({ summary: 'Retrieve a user by ID' })
   @ApiResponse({ status: 200, description: 'The user', type: User })
-  findOne(@Param('id') id: number): Promise<User> {
+  findOne(@Param('id') id: string): Promise<User> {
+    console.log("Log")
     return this.appService.findOne(id);
   }
 

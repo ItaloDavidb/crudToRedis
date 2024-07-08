@@ -1,9 +1,10 @@
-import { Module } from '@nestjs/common';
+import { Module, UseInterceptors } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './controllers/app.controller';
 import { AppService } from './services/app.service';
 import { ConfigModule } from '@nestjs/config';
 import { User } from './entities/User-entity';
+import { CacheModule } from '@nestjs/cache-manager';
 
 @Module({
   imports: [
@@ -20,6 +21,14 @@ import { User } from './entities/User-entity';
       entities: [User],
       synchronize: true, // Apenas para desenvolvimento. Em produção, use migrations.
     }),
+    CacheModule.register(
+    
+      
+      
+      {isGlobal:true,
+        ttl:1000,
+      }
+    ),
     TypeOrmModule.forFeature([User]),
   ],
   controllers: [AppController],

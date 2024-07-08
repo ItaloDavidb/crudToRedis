@@ -14,7 +14,7 @@ export class AppService {
     return this.userRepository.find();
   }
 
-  findOne(id: number): Promise<User> {
+  findOne(id: string): Promise<User> {
     return this.userRepository.findOne({ where: { id } });
   }
 
