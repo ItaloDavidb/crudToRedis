@@ -5,6 +5,7 @@ import { AppService } from './services/app.service';
 import { ConfigModule } from '@nestjs/config';
 import { User } from './entities/User-entity';
 import { CacheModule } from '@nestjs/cache-manager';
+import { redisStore } from 'cache-manager-redis-yet';
 
 @Module({
   imports: [
@@ -21,12 +22,12 @@ import { CacheModule } from '@nestjs/cache-manager';
       entities: [User],
       synchronize: true, // Apenas para desenvolvimento. Em produção, use migrations.
     }),
-    CacheModule.register(
-    
-      
-      
-      {isGlobal:true,
-        ttl:1000,
+    CacheModule.registerAsync(
+      {
+        useFactory: async () => ({
+          store: await redisStore({ ttl: 10 * 1000 })
+        }),
+        isGlobal: true,
       }
     ),
     TypeOrmModule.forFeature([User]),
@@ -34,4 +35,4 @@ import { CacheModule } from '@nestjs/cache-manager';
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule {}
+export class AppModule { }

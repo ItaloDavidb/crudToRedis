@@ -10,6 +10,7 @@ export class AppController {
   constructor(private readonly appService: AppService) {}
 
   @Get()
+  @UseInterceptors(CacheInterceptor)
   @ApiOperation({ summary: 'Retrieve all users' })
   @ApiResponse({ status: 200, description: 'List of users', type: [User] })
   findAll(): Promise<User[]> {
