@@ -3,11 +3,12 @@ import { User } from '../entities/User-entity';
 import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { AppService } from 'src/services/app.service';
 import { CacheInterceptor } from '@nestjs/cache-manager';
+import { HashTransform } from 'src/utils/hash';
 
 @ApiTags('users')
 @Controller('users')
 export class AppController {
-  constructor(private readonly appService: AppService) {}
+  constructor(private readonly appService: AppService) { }
 
   @Get()
   @UseInterceptors(CacheInterceptor)
@@ -29,8 +30,11 @@ export class AppController {
   @Post()
   @ApiOperation({ summary: 'Create a new user' })
   @ApiResponse({ status: 201, description: 'The created user', type: User })
-  create(@Body() user: User): Promise<User> {
-    return this.appService.create(user);
+  create(
+    @Body() {password ,...user}: User,
+    @Body('password', HashTransform) hashedPassword: string
+  ): Promise<Omit<User, 'password'>>  {
+    return this.appService.create({...user,password: hashedPassword});
   }
 
   @Delete(':id')

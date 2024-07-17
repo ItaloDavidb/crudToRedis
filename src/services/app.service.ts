@@ -18,8 +18,10 @@ export class AppService {
     return this.userRepository.findOne({ where: { id } });
   }
 
-  create(user: User): Promise<User> {
-    return this.userRepository.save(user);
+  async create(user: User): Promise<Omit<User, 'password'>> {
+    const userCreate = await this.userRepository.save(user);
+    const { password, ...result } = userCreate;
+    return result;
   }
 
   async remove(id: number): Promise<void> {
