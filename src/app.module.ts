@@ -6,6 +6,7 @@ import { ConfigModule } from '@nestjs/config';
 import { User } from './entities/User-entity';
 import { CacheModule } from '@nestjs/cache-manager';
 import { redisStore } from 'cache-manager-redis-yet';
+import { AuthModule } from './modules/auth/auth.module';
 
 @Module({
   imports: [
@@ -34,6 +35,7 @@ import { redisStore } from 'cache-manager-redis-yet';
       }
     ),
     TypeOrmModule.forFeature([User]),
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [AppService],

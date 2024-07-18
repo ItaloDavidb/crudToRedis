@@ -31,10 +31,10 @@ export class AppController {
   @ApiOperation({ summary: 'Create a new user' })
   @ApiResponse({ status: 201, description: 'The created user', type: User })
   create(
-    @Body() {password ,...user}: User,
+    @Body() { password, ...user }: User,
     @Body('password', HashTransform) hashedPassword: string
-  ): Promise<Omit<User, 'password'>>  {
-    return this.appService.create({...user,password: hashedPassword});
+  ): Promise<Omit<User, 'password'>> {
+    return this.appService.create({ ...user, password: hashedPassword });
   }
 
   @Delete(':id')
