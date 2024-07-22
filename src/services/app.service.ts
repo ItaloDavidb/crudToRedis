@@ -17,6 +17,10 @@ export class AppService {
   findOne(id: string): Promise<User> {
     return this.userRepository.findOne({ where: { id } });
   }
+  
+  findByEmail(email:string):Promise <User>{
+    return this.userRepository.findOne({where: {email}})
+  }
 
   async create(user: User): Promise<Omit<User, 'password'>> {
     const userCreate = await this.userRepository.save(user);

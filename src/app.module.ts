@@ -10,6 +10,7 @@ import { AuthModule } from './modules/auth/auth.module';
 
 @Module({
   imports: [
+    AuthModule,
     ConfigModule.forRoot({
       isGlobal: true,
     }),
@@ -35,9 +36,11 @@ import { AuthModule } from './modules/auth/auth.module';
       }
     ),
     TypeOrmModule.forFeature([User]),
-    AuthModule,
   ],
   controllers: [AppController],
   providers: [AppService],
+  exports:[
+    AppService
+  ]
 })
 export class AppModule { }
