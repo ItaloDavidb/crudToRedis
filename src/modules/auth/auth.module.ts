@@ -5,12 +5,12 @@ import { AppModule } from 'src/app.module';
 import { JwtModule } from '@nestjs/jwt';
 
 @Module({
-  imports:[
+  imports: [
     forwardRef(() => AppModule),
     JwtModule.register({
-      global:true,
-      secret:"secret",
-      signOptions:{
+      global: true,
+      secret: process.env.SECRET,
+      signOptions: {
         expiresIn: "32h"
       }
     }

@@ -1,0 +1,5 @@
+POSTGRES_DB=meu_database
+POSTGRES_USER=meu_usuario
+POSTGRES_PASSWORD=meu_password
+DB_HOST=localhost
+SAL_PASSWORD=$2b$10$/uZ5lvCKwwtW9oEZ6ssQqe

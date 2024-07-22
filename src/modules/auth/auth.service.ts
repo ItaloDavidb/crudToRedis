@@ -4,6 +4,11 @@ import { AppService } from 'src/services/app.service';
 import * as bcrypt from 'bcrypt'
 import { JwtService } from '@nestjs/jwt';
 
+export interface UserPayload {
+  sub: string;
+  username: string;
+}
+
 @Injectable()
 export class AuthService {
   constructor(
@@ -19,13 +24,12 @@ export class AuthService {
     if (!authUser) {
       throw new UnauthorizedException("Email or Password not correct")
     }
-    const payload = {
+    const payload: UserPayload = {
       sub: user.id,
       username: user.name
     }
     return {
       acess_token: await this.jwtService.signAsync(payload),
-      
     }
   }
 }
